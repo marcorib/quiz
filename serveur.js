@@ -17,6 +17,31 @@ app.listen(3300, function ()
 
 
 
-// app.get('/', function (req, res) {
-//   res.send()
+app.get('/', function (req, res) {
+  res.sendFile(__dirname + '/public/quiz.html');
+})
+
+
+// app.get('/orel', function (req, res) {
+//   res.send("c'est moi");
 // })
+
+var mysql = require('mysql')
+
+var connection = mysql.createConnection({
+  host: 'localhost',
+  user: 'marco',
+  password: '',
+  database: 'Quiz'
+})
+
+connection.connect(function(err) {
+  if (err) throw err
+  console.log('You are now connected...')
+
+ connection.query('SELECT * FROM Questions', function(err, results) {
+        if (err) throw err
+        console.log(results)
+       
+      })
+});
