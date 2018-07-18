@@ -1,5 +1,5 @@
 var express = require('express')
-// var bodyParser = require('body-parser');
+var bodyParser = require('body-parser');
 var app = express();
 
 
@@ -11,11 +11,8 @@ app.listen(3300, function ()
 });
 
 
-// app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded({ extended: false }));
-
-
-
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.get('/', function (req, res) {
   res.sendFile(__dirname + '/public/quiz.html');
@@ -28,12 +25,15 @@ app.get('/', function (req, res) {
 
 var mysql = require('mysql')
 
-var connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'marco',
-  password: '',
-  database: 'Quiz'
+var connection = mysql.createConnection(
+{
+	host: 'localhost',
+	user: 'marco',
+	password: 'ubatuba',
+	database: 'Quiz'
 })
+
+var montableau = [];
 
 connection.connect(function(err) {
   if (err) throw err
@@ -41,7 +41,15 @@ connection.connect(function(err) {
 
  connection.query('SELECT * FROM Questions', function(err, results) {
         if (err) throw err
-        console.log(results)
+        	for (var i = 0; i<results.length; i++) {
+            montableau.push(results[i]);
+          }
+        	console.log(results)
        
       })
+});
+
+app.get('/Marco', function(req, res){
+  res.json(montableau);
+  console.log(montableau);
 });
