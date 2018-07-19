@@ -1,7 +1,11 @@
 var express = require('express')
 var bodyParser = require('body-parser');
 var app = express();
+var mysql = require('mysql');
 
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static('public')); // fonction pour relier le HTML 
 
@@ -11,8 +15,6 @@ app.listen(3300, function ()
 });
 
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
 
 app.get('/', function (req, res) {
   res.sendFile(__dirname + '/public/quiz.html');
@@ -23,7 +25,6 @@ app.get('/', function (req, res) {
 //   res.send("c'est moi");
 // })
 
-var mysql = require('mysql')
 
 var connection = mysql.createConnection(
 {
@@ -33,7 +34,7 @@ var connection = mysql.createConnection(
 	database: 'Quiz'
 })
 
-var montableau = [];
+var arrayQ = [];
 
 connection.connect(function(err) {
   if (err) throw err
@@ -42,14 +43,14 @@ connection.connect(function(err) {
  connection.query('SELECT * FROM Questions', function(err, results) {
         if (err) throw err
         	for (var i = 0; i<results.length; i++) {
-            montableau.push(results[i]);
+            arrayQ.push(results[i]);
           }
-        	console.log(results)
+        	console.log(arrayQ);
        
       })
-});
+})
 
 app.get('/Marco', function(req, res){
-  res.json(montableau);
-  console.log(montableau);
-});
+  res.json(arrayQ);
+  console.log(arrayQ);
+})
