@@ -31,7 +31,6 @@ $('#btnQues').on('click','.start', function ()
 	$('#answer').append('<tr><td><button  class="rep" id="test1">'+tab[quest].Reponse_3+'</button></td><td><button  class="rep" id="test3">'+tab[quest].Reponse_4+'</button></td></tr>');
 
 
-
 $('#btnQues').on('click', '.rep', function()
 {
 
